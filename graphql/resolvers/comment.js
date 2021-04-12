@@ -1,21 +1,17 @@
 const { Post } = require('../../database/models');
-
-const { AuthenticationError, ApolloError } = require('apollo-server-express');
+const { combineResolvers } = require("graphql-resolvers");
+const { isAuthenticated, combine } = require('../permission/authenticated');
 
 module.exports = {
   Mutation: {
-    async createComment(_, { content, postId }, { user = null }) {
-      if (!user) {
-        throw new AuthenticationError('You must login to create a comment');
-      }
-
-      const post = await Post.findByPk(postId);
-
-      if (post) {
-        return post.createComment({ content, userId: user.id });
-      }
-      throw new ApolloError('Unable to create a comment');
-    },
+    createComment: combineResolvers(isAuthenticated, (_, { content, postId }, { user = null }) => {
+      return (async () => {
+        const post = await Post.findByPk(postId);
+        if (post) {
+          return post.createComment({ content, userId: user.id });
+        }
+      })()
+    }),
   },
 
   Comment: {
