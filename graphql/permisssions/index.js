@@ -13,21 +13,20 @@ const isAdmin = rule({ cache: 'contextual' })(
 )
 
 // Permissions
-
 const permissions = shield({
     Query: {
         // register: not(isAuthenticated),
-        getAllPosts: and(isAuthenticated, isAdmin),
+        getAllPosts: isAuthenticated,
         // fruits: and(isAuthenticated, or(isAdmin, isEditor)),
         // customers: and(isAuthenticated, isAdmin),
     },
     Mutation: {
         register: not(isAuthenticated),
-        login: isAuthenticated,
+        createPost: isAuthenticated,
         createComment: isAuthenticated,
         //register: not(isAuthenticated),
     },
-    //Fruit: isAuthenticated,
+    Comment: isAuthenticated,
     //Customer: isAdmin,
 })
 module.exports = permissions

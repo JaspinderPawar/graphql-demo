@@ -17,13 +17,13 @@ const apolloServer = new ApolloServer({
     permissions
   ),
   context,
-  // introspection: true,
-  // playground: {
-  //   settings: {
-  //     'schema.polling.enable': false,
-  //     'editor.fontSize': 18,
-  //   },
-  // },
+  introspection: true,
+  playground: {
+    settings: {
+      'schema.polling.enable': false,
+      'editor.fontSize': 18,
+    },
+  },
 });
 
 apolloServer.applyMiddleware({ app, path: '/api' });
