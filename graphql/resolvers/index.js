@@ -1,5 +1,13 @@
-const userResolvers = require('./user');
-const postResolvers = require('./post');
-const commentResolvers = require('./comment');
+const { createUserResolvers } = require('./user');
+const { createPostResolvers } = require('./post');
+const { createCommentResolvers } = require('./comment');
 
-module.exports = [userResolvers, postResolvers, commentResolvers];
+const createResolvers = ({ sequelize }) => {
+
+    const userResolvers = createUserResolvers({ sequelize });
+    const postResolvers = createPostResolvers({ sequelize })
+    const commentResolvers = createCommentResolvers({ sequelize })
+
+    return [userResolvers, postResolvers, commentResolvers]
+}
+module.exports = { createResolvers };
