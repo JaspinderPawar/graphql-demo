@@ -21,7 +21,6 @@ const createContext = ({ sequelize: { models: { User } } }) => {
     return { user };
   };
 
-
 };
 
 module.exports = { createContext }
